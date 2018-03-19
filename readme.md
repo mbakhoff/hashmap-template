@@ -1,6 +1,6 @@
 # How does a hashmap work?
 
-A map contains key-value pairs. 
+A map contains key-value pairs.
 Pairs can be added and values can be looked up by the key.
 Adding a key-value pair when the key already exists in the map will replace the existing value.
 
@@ -28,19 +28,19 @@ public int hashCode() {
     hash = 31 * hash + c;
   return hash;
 }
-``` 
-  
+```
+
 If your class needs to be useful as a hashmap key, then you must override the hashCode method.
-The result of hashCode should return: 
+The result of hashCode should return:
 * same value when called multiple times
 * same value for identical objects
 * different value for different objects
 
 ```java
 class SimpleHashMap<KeyType, ValueType> {
-  
+
   List<Pair<KeyType, ValueType>>[] buckets = new List[1000];
-  
+
   void put(KeyType key, ValueType value) {
     List<Pair<KeyType, ValueType>> bucket = findBucket(key);
     Pair<KeyType, ValueType> pair = findPairByKey(bucket, key);
@@ -49,7 +49,7 @@ class SimpleHashMap<KeyType, ValueType> {
     else
       bucket.add(new Pair(key, value));
   }
-  
+
   ValueType get(KeyType key) {
     List<Pair<KeyType, ValueType>> bucket = findBucket(key);
     Pair<KeyType, ValueType> pair = findPairByKey(bucket, key);
@@ -57,16 +57,16 @@ class SimpleHashMap<KeyType, ValueType> {
       return null;
     return pair.getValue();
   }
-  
+
   List<Pair<KeyType, ValueType>> findBucket(KeyType key) {
     // use remainder of division. result is [0; buckets.length[
     int bucketToUse = key.hashCode() % buckets.length;
     return buckets[bucketToUse];
   }
-  
+
   Pair<KeyType, ValueType> findPairByKey(List<Pair<KeyType, ValueType>>bucket, KeyType key) {
     for (Pair<KeyType, ValueType> pair : bucket) {
-      if (pair.getKey().equals(key)) // uses equals, not ==
+      if (key.equals(pair.getKey())) // uses equals, not ==
         return pair;
     }
     return null;
@@ -90,21 +90,22 @@ Here's an example of a correct key:
 ```java
 class Person {
 
-  // fields can never change, otherwise the hashCode could change as well
+  // a good key must be immutable - it's contents should never change
+  // otherwise the hashCode must change as well and break existing hashmap entries
   final String firstName, lastName;
-  
+
   Person(String firstName, String lastName) {
     if (firstName == null || lastName == null)
       throw new IllegalArgumentException();
     this.firstName = firstName;
     this.lastName = lastName;
   }
-  
+
   @Override
   public int hashCode() {
     return 31 * firstName.hashCode() + lastName.hashCode();
   }
-  
+
   @Override
   public boolean equals(Object other) {
     if (other == null || getClass() != other.getClass())
@@ -115,3 +116,8 @@ class Person {
   }
 }
 ```
+
+# Task
+
+Fix tests for all tasks.
+The test classes should not crash.

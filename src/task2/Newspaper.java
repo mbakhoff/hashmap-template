@@ -1,7 +1,5 @@
-/**
- * oop2016ut collections vol2
- * @author Taavi Ilp
- */
+package task2;
+
 public class Newspaper {
 
   private final String name;
@@ -28,12 +26,14 @@ public class Newspaper {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
 
     Newspaper newspaper = (Newspaper) o;
-
-    if (registrationCode != newspaper.registrationCode) return false;
+    if (yearOfFounding != newspaper.yearOfFounding)
+      return false;
     return name != null ? name.equals(newspaper.name) : newspaper.name == null;
   }
 
@@ -41,7 +41,6 @@ public class Newspaper {
   public int hashCode() {
     int result = name != null ? name.hashCode() : 0;
     result = 31 * result + yearOfFounding;
-    result = 31 * result + registrationCode;
     return result;
   }
 }
