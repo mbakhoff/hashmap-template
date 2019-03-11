@@ -110,14 +110,9 @@ class Person {
   public boolean equals(Object other) {
     if (other == null || getClass() != other.getClass())
       return false;
-    Person otherPerson = (Person) other;
+    Person otherPerson = (Person) other; // cast Object to Person
     return firstName.equals(otherPerson.firstName) &&
            lastName.equals(otherPerson.lastName);
   }
 }
 ```
-
-# Task
-
-Fix tests for all tasks.
-The test classes should not crash.
